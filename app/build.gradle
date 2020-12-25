@@ -48,15 +48,22 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
-    // Testing Libs
+    // Testing
     testImplementation 'junit:junit:4.13.1'
     testImplementation "org.koin:koin-test:$koin_version"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "android.arch.core:core-testing:$lifecycle_version"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation "org.mockito:mockito-android:3.6.0"
     androidTestImplementation "com.nhaarman:mockito-kotlin:1.5.0"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
 
-    // Koin Dependency Injection
+    // Koin
     implementation "org.koin:koin-android-viewmodel:$koin_version"
+
+    // Room
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    androidTestImplementation "androidx.room:room-testing:$room_version"
 }
