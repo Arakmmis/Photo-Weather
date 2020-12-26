@@ -3,6 +3,7 @@ package com.example.photoweather.data.cache.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.photoweather.data.cache.constants.PhotoConstants
+import java.io.Serializable
 import java.util.*
 import kotlin.random.Random
 
@@ -17,7 +18,7 @@ data class Photo(
     var tempDesc: String = "",
     var city: String = "",
     var country: String = ""
-) {
+): Serializable {
 
     override fun equals(other: Any?): Boolean {
         return this.id == (other as Photo?)?.id

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.photoweather.R
 import com.example.photoweather.data.cache.models.Photo
+import com.example.photoweather.home.HomeActivity
 import com.example.photoweather.photoslist.adapter.PhotoViewHolder
 import com.example.photoweather.photoslist.adapter.PhotosAdapter
 import com.example.photoweather.utils.Error
@@ -91,11 +92,7 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
     }
 
     override fun onPhotoSelected(photo: Photo) {
-        Toast.makeText(
-            context,
-            "You have clicked on photo: ${photo.city}, ${photo.country}",
-            Toast.LENGTH_LONG
-        ).show()
+        (activity as HomeActivity).openPhotoDetails(photo)
     }
 
     private fun openCamera() {
