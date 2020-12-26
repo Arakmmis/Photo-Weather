@@ -1,4 +1,4 @@
-package com.example.photoweather.remote.constants
+package com.example.photoweather.data.remote.constants
 
 object WeatherServiceConstants {
 

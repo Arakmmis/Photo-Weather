@@ -1,6 +1,6 @@
-package com.example.photoweather.remote
+package com.example.photoweather.data.remote
 
-import com.example.photoweather.remote.constants.WeatherServiceConstants
+import com.example.photoweather.data.remote.constants.WeatherServiceConstants
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient

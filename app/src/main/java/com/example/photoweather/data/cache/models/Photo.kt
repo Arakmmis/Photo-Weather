@@ -1,8 +1,8 @@
-package com.example.photoweather.cache.models
+package com.example.photoweather.data.cache.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.photoweather.cache.constants.PhotoConstants
+import com.example.photoweather.data.cache.constants.PhotoConstants
 import java.util.*
 import kotlin.random.Random
 
@@ -13,7 +13,8 @@ data class Photo(
     var imagePath: String = "",
     var date: Date = Date(),
     var temp: Int = Random.nextInt(-20, 50),
-    var desc: String = "",
+    var tempIconUrl: String = "",
+    var tempDesc: String = "",
     var city: String = "",
     var country: String = ""
 ) {

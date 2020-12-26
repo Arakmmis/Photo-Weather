@@ -1,12 +1,12 @@
-package com.example.photoweather.cache.db
+package com.example.photoweather.data.cache.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.example.photoweather.cache.mapper.DateConverter
-import com.example.photoweather.cache.models.Photo
+import com.example.photoweather.data.cache.mapper.DateConverter
+import com.example.photoweather.data.cache.models.Photo
 
 @Database(entities = [Photo::class], version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class)

@@ -1,4 +1,4 @@
-package com.example.photoweather.cache.constants
+package com.example.photoweather.data.cache.constants
 
 object PhotoConstants {
 

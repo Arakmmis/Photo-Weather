@@ -1,4 +1,4 @@
-package com.example.photoweather.cache.mapper
+package com.example.photoweather.data.cache.mapper
 
 import androidx.room.TypeConverter
 import java.util.*

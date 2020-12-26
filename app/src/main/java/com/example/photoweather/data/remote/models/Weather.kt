@@ -1,4 +1,4 @@
-package com.example.photoweather.remote.models
+package com.example.photoweather.data.remote.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -30,7 +30,7 @@ data class Weather(
     data class Temperature(
         @SerializedName("temp")
         @Expose
-        val temp: String
+        val temp: Int
     )
 
     data class CountryCode(
