@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Photo Weather</string>
+    <string name="app_name">Weathery</string>
 
     <string name="no_results">No Images Found</string>
     <string name="fab_content_desc">Take a picture</string>
