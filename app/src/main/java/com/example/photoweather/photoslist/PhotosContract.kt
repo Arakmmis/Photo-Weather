@@ -10,9 +10,15 @@ interface PhotosContract {
         fun showLoading(isLoading: Boolean)
 
         fun showPhotos(photos: List<Photo>)
+
+        fun getUserLocation()
+
+        fun showError(msg: String)
+
+        fun showInsertionSucceeded()
     }
 
     interface Presenter {
-
+        fun newPhoto(uriPath: String)
     }
 }
