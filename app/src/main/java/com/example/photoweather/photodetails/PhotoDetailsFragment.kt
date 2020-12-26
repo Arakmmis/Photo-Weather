@@ -1,7 +1,11 @@
 package com.example.photoweather.photodetails
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -33,6 +37,7 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photos_details) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         photo = requireArguments().getSerializable(KEY_PHOTO) as Photo?
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,6 +53,30 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photos_details) {
 
         flBackground.setOnClickListener {
             // Do Nothing
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.share, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_share -> {
+                activity?.startActivity(createShareIntent())
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private fun createShareIntent(): Intent {
+        return Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, Uri.parse(photo?.imagePath))
+            type = "image/*"
         }
     }
 
