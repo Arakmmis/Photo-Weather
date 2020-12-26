@@ -15,8 +15,8 @@ class DataManager(private val photosDao: PhotoDao, private val weatherService: W
         }
     }
 
-    override fun getWeather(cityName: String): Single<Weather> {
-        return weatherService.getCurrentWeather(cityName)
+    override fun getWeather(lat: Double, lon: Double): Single<Weather> {
+        return weatherService.getCurrentWeather(lat, lon)
     }
 
     override fun getPhotos(): Single<List<Photo>> {

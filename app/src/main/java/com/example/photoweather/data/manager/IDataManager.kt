@@ -8,7 +8,7 @@ interface IDataManager {
 
     fun insertPhoto(photo: Photo): Single<Long>
 
-    fun getWeather(cityName: String): Single<Weather>
+    fun getWeather(lat: Double, lon: Double): Single<Weather>
 
     fun getPhotos(): Single<List<Photo>>
 }

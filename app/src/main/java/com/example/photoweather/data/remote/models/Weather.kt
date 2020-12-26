@@ -30,7 +30,7 @@ data class Weather(
     data class Temperature(
         @SerializedName("temp")
         @Expose
-        val temp: Int
+        val temp: Float
     )
 
     data class CountryCode(

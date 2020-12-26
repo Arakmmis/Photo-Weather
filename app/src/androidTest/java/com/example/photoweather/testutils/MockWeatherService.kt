@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 class MockWeatherService: WeatherService() {
 
-    override fun getCurrentWeather(cityName: String): Single<Weather> {
+    override fun getCurrentWeather(lat: Double, lon: Double): Single<Weather> {
         return Single.just(DataUtils.createWeather(1)[0])
     }
 }

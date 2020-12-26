@@ -3,6 +3,7 @@ package com.example.photoweather.photoslist
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -18,7 +19,7 @@ import com.example.photoweather.data.cache.models.Photo
 import com.example.photoweather.photoslist.adapter.PhotoViewHolder
 import com.example.photoweather.photoslist.adapter.PhotosAdapter
 import com.example.photoweather.utils.Error
-import com.google.android.material.snackbar.Snackbar
+import com.example.photoweather.utils.LocationService
 import kotlinx.android.synthetic.main.fragment_photos_list.*
 import kotlinx.android.synthetic.main.view_loading.*
 import kotlinx.android.synthetic.main.view_no_results.*
@@ -28,16 +29,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContract.View,
-    PhotoViewHolder.Callback {
+    PhotoViewHolder.Callback, LocationService.CallBack {
 
     private val TAG = "PhotosListFragment"
 
     private lateinit var adapter: PhotosAdapter
     private lateinit var presenter: PhotosContract.Presenter
 
+    private var locationService: LocationService? = null
+
     private val REQUEST_IMAGE_CAPTURE = 1
 
-    private lateinit var photoURI: Uri
+    private lateinit var photoUri: Uri
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,14 +59,20 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
         btnTakePicture.setOnClickListener { openCamera() }
     }
 
-    override fun showNoResults() {
+    private fun showNoResults() {
         llNoResults.visibility = View.VISIBLE
         llLoading.visibility = View.GONE
         rvPhotos.visibility = View.GONE
     }
 
-    override fun showLoading(isLoading: Boolean) {
-        llLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+    override fun showLoading() {
+        llLoading.visibility = View.VISIBLE
+        llNoResults.visibility = View.GONE
+        rvPhotos.visibility = View.GONE
+    }
+
+    override fun hideLoading() {
+        llLoading.visibility = View.GONE
     }
 
     override fun showPhotos(photos: List<Photo>) {
@@ -79,10 +88,6 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
         adapter.updatePhotos(photos = photos)
     }
 
-    override fun getUserLocation() {
-
-    }
-
     override fun showError(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
@@ -92,13 +97,11 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
     }
 
     override fun onPhotoSelected(photo: Photo) {
-        this.view?.let {
-            Snackbar.make(
-                it,
-                "You have clicked on photo: ${photo.city}, ${photo.country}",
-                Snackbar.LENGTH_LONG
-            )
-        }
+        Toast.makeText(
+            context,
+            "You have clicked on photo: ${photo.city}, ${photo.country}",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     private fun openCamera() {
@@ -112,13 +115,13 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
             }
 
             photoFile?.also {
-                photoURI = FileProvider.getUriForFile(
+                photoUri = FileProvider.getUriForFile(
                     requireContext(),
                     "com.example.android.fileprovider",
                     it
                 )
 
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
 
                 try {
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
@@ -126,12 +129,6 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
                     showError(Error.NO_APP_FOUND)
                 }
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            presenter.newPhoto(photoURI.toString())
         }
     }
 
@@ -146,5 +143,38 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
             ".jpg",
             storageDir
         )
+    }
+
+    override fun getUserLocation() {
+        locationService = LocationService(requireActivity(), this)
+    }
+
+    override fun onLocationAvailable(location: Location?) {
+        location?.let {
+            presenter.getWeather(it.latitude, it.longitude)
+        }
+    }
+
+    override fun onLocationDenied() {
+        showError(Error.FAILED_TO_RETRIEVE_LOCATION)
+        hideLoading()
+        showPhotos(presenter.getPhotos())
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
+            presenter.newPhoto(photoUri.toString())
+        else if (locationService != null && requestCode == LocationService.ACCESS_FINE_LOCATION)
+            locationService?.onActivityResult(requestCode, resultCode)
+        else
+            super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        locationService?.onRequestPermissionsResult(requestCode, grantResults)
     }
 }

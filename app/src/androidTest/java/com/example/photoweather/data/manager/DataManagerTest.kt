@@ -50,7 +50,7 @@ class DataManagerTest {
     @Test
     fun onGetWeatherSuccessReturnWeather() {
         val weather = dataManager
-            .getWeather("Alexandria")
+            .getWeather(21.422487, 39.826206)
             .blockingGet()
         val mockWeather = DataUtils.createWeather(1)[0]
 

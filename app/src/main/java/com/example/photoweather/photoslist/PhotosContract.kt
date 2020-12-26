@@ -5,9 +5,9 @@ import com.example.photoweather.data.cache.models.Photo
 interface PhotosContract {
 
     interface View {
-        fun showNoResults()
+        fun showLoading()
 
-        fun showLoading(isLoading: Boolean)
+        fun hideLoading()
 
         fun showPhotos(photos: List<Photo>)
 
@@ -19,6 +19,10 @@ interface PhotosContract {
     }
 
     interface Presenter {
+        fun getPhotos(): List<Photo>
+
         fun newPhoto(uriPath: String)
+
+        fun getWeather(lat: Double, lon: Double)
     }
 }

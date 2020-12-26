@@ -1,8 +1,8 @@
 package com.example.photoweather.testutils
 
 import com.example.photoweather.data.cache.models.Photo
-import com.example.photoweather.utils.PhotoWeatherMapper
 import com.example.photoweather.data.remote.models.Weather
+import com.example.photoweather.utils.PhotoWeatherMapper
 
 class DataUtils {
 
@@ -56,7 +56,7 @@ class DataUtils {
                             weatherIcon = "01d"
                         )
                     ),
-                    temperature = Weather.Temperature(-3),
+                    temperature = Weather.Temperature(-3f),
                     countryCode = Weather.CountryCode("JP")
                 )
 
@@ -68,7 +68,7 @@ class DataUtils {
                             weatherIcon = "06d"
                         )
                     ),
-                    temperature = Weather.Temperature(4),
+                    temperature = Weather.Temperature(4f),
                     countryCode = Weather.CountryCode("TR")
                 )
 
@@ -80,7 +80,7 @@ class DataUtils {
                             weatherIcon = "10d"
                         )
                     ),
-                    temperature = Weather.Temperature(20),
+                    temperature = Weather.Temperature(20f),
                     countryCode = Weather.CountryCode("EG")
                 )
             }

@@ -6,9 +6,9 @@ import io.reactivex.Single
 
 open class WeatherService {
 
-    open fun getCurrentWeather(cityName: String): Single<Weather> {
+    open fun getCurrentWeather(lat: Double, lon: Double): Single<Weather> {
         return WeatherServiceFactory().makeWeatherService()
-            .getCurrentWeather(cityName)
+            .getCurrentWeather(lat, lon)
             .flatMap {
                 if (it.weatherInfo.isNotEmpty())
                     it.weatherInfo[0].weatherIcon =
