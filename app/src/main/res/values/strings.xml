@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PhotoWeather App</string>
+
+    <string name="no_results">No Images Yet</string>
 </resources>
