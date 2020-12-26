@@ -6,12 +6,9 @@ import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.photoweather.R
@@ -19,14 +16,11 @@ import com.example.photoweather.data.cache.models.Photo
 import com.example.photoweather.photoslist.adapter.PhotoViewHolder
 import com.example.photoweather.photoslist.adapter.PhotosAdapter
 import com.example.photoweather.utils.Error
+import com.example.photoweather.utils.FileUtils
 import com.example.photoweather.utils.LocationService
 import kotlinx.android.synthetic.main.fragment_photos_list.*
 import kotlinx.android.synthetic.main.view_loading.*
 import kotlinx.android.synthetic.main.view_no_results.*
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContract.View,
     PhotoViewHolder.Callback, LocationService.CallBack {
@@ -106,43 +100,15 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
 
     private fun openCamera() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                FileUtils.getImageFile(requireContext(), TAG))
 
-            val photoFile: File? = try {
-                createImageFile()
-            } catch (ex: IOException) {
-                Log.e(TAG, ex.localizedMessage ?: ex.stackTraceToString())
-                null
-            }
-
-            photoFile?.also {
-                photoUri = FileProvider.getUriForFile(
-                    requireContext(),
-                    "com.example.android.fileprovider",
-                    it
-                )
-
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-
-                try {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                } catch (ex: ActivityNotFoundException) {
-                    showError(Error.NO_APP_FOUND)
-                }
+            try {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            } catch (ex: ActivityNotFoundException) {
+                showError(Error.NO_APP_FOUND)
             }
         }
-    }
-
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
-
-        val storageDir: File? = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-
-        return File.createTempFile(
-            "JPEG_${timeStamp}_",
-            ".jpg",
-            storageDir
-        )
     }
 
     override fun getUserLocation() {
