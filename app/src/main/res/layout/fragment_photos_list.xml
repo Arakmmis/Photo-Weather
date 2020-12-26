@@ -8,11 +8,12 @@
         android:id="@+id/rvPhotos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginEnd="@dimen/medium_margin"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingStart="@dimen/medium_margin"
         android:paddingTop="@dimen/medium_margin"
-        android:paddingEnd="@dimen/medium_margin"
         android:paddingBottom="@dimen/large_margin"
         android:scrollbars="none" />
 
