@@ -34,7 +34,7 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
 
     private val REQUEST_IMAGE_CAPTURE = 1
 
-    private lateinit var photoUri: Uri
+    private var photoUri: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,8 +100,9 @@ class PhotosListFragment : Fragment(R.layout.fragment_photos_list), PhotosContra
 
     private fun openCamera() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                FileUtils.getImageFile(requireContext(), TAG))
+            photoUri = FileUtils.getImageFileUri(requireContext(), TAG)
+
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
 
             try {
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)

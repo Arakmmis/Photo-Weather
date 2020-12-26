@@ -70,6 +70,7 @@ class PhotosListPresenter(private val view: PhotosContract.View) : PhotosContrac
                     if (e != null) {
                         Log.e(TAG, e.localizedMessage ?: e.stackTraceToString())
                         view.showError(Error.FAILED_TO_RETRIEVE_WEATHER)
+                        view.showPhotos(getPhotos())
                         view.hideLoading()
                         return@subscribe
                     }
@@ -90,6 +91,7 @@ class PhotosListPresenter(private val view: PhotosContract.View) : PhotosContrac
                     if (e != null) {
                         Log.e(TAG, e.localizedMessage ?: e.stackTraceToString())
                         view.showError(Error.FAILED_TO_SAVE)
+                        view.showPhotos(getPhotos())
                         view.hideLoading()
                         return@subscribe
                     }
