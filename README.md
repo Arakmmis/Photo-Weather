@@ -28,4 +28,4 @@ OPEN_WEATHER_KEY="YOUR_API_KEY"
 
 ### Sync Project with __Gradle__ files from the menu in Android Studio
 
-### That's it, it should run properly without any problems now!
+##### That's it, it should run properly without any problems now!
