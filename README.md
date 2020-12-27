@@ -26,4 +26,6 @@ OPEN_WEATHER_KEY="YOUR_API_KEY"
 ```
 - Replace ```YOUR_API_KEY``` with the key you retrieved from OpenWeatherMap without removing the quotation marks
 
-### That's it, it should run properly without any problems now
+### Sync Project with __Gradle__ files from the menu in Android Studio
+
+### That's it, it should run properly without any problems now!
